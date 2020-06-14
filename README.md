@@ -2,6 +2,9 @@
 This is a package to assist with nopCommerce localizations. It enables use of static classes to refer to resources, with attribute based
 localization of default supported languages for the plugin
 
+## NuGet
+This package is available on NuGet [https://www.nuget.org/packages/nopLocalizationHelper]
+
 ## Example
 ```
     [LocaleStringProvider]
