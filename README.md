@@ -44,14 +44,13 @@ The constructor for LocaleStringHelper is defined as
         Func<T, string, bool> areResourcesEqual
         )
 ```
-i.e. it takes functiona delegates for alla actions that are required. The helper doesn't even know about nopCommerce's LocaleStringResource
+i.e. it takes function delegates for all actions that are required by the helper. The helper doesn't even know about nopCommerce's LocaleStringResource
 
 The following utility method is an example of instantiating this helper
 
 ```
-    private LocaleStringHelper<LocaleStringResource> ResourceHelper()
-    {
-        return new LocaleStringHelper<LocaleStringResource>
+    private LocaleStringHelper<LocaleStringResource> ResourceHelper() =>
+        new LocaleStringHelper<LocaleStringResource>
         (
             GetType().Assembly,
             from lang in _languageService.GetAllLanguages() select (lang.Id, lang.LanguageCulture),
@@ -62,7 +61,6 @@ The following utility method is an example of instantiating this helper
             (lsr) => _localizationService.DeleteLocaleStringResource(lsr),
             (lsr, resourceValue) => lsr.ResourceValue == resourceValue
         );
-    }
 ```
 
 And with that, in the plugin's Install method all you have to do is
