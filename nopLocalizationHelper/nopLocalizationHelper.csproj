@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>0.5.0</Version>
+    <Authors>Status ehf, Birgir Kristmannsson</Authors>
+    <Product>nopLocalizationHelper</Product>
+    <Description>A library that assist with management of nopCommerce locale string resources</Description>
+    <Copyright>Status ehf</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/biggik/nopLocalizationHelper</PackageProjectUrl>
+    <Company>Status ehf</Company>
+    <RepositoryUrl>https://github.com/biggik/nopLocalizationHelper</RepositoryUrl>
+    <PackageTags>nopCommerce, localization, locale</PackageTags>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+    <Exec Command="if exist  $(SolutionDir)publish.bat (&#xD;&#xA;   $(SolutionDir)publish.bat $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg&#xD;&#xA;)" />
+  </Target>
+</Project>
