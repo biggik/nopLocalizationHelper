@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace nopLocalizationHelper
 {
-#if !NET5_0
+#if NET5_0
     public class LocaleStringHelper<T>  where T : class
     {
         private readonly Assembly pluginAssembly;
         private readonly IEnumerable<(int languageId, string culture)> languageCultures;
-        private readonly Func<string, int, T> getResource;
+        private readonly Func<string, int, Task<T>> getResource;
         private readonly Func<int, string, string, T> createResource;
-        private readonly Action<T> insertResource;
-        private readonly Action<T, string> updateResource;
-        private readonly Action<T> deleteResource;
+        private readonly Func<T, Task> insertResource;
+        private readonly Func<T, string, Task> updateResource;
+        private readonly Func<T, Task> deleteResource;
         private readonly Func<T, string, bool> areResourcesEqual;
 
         public LocaleStringHelper(
             Assembly pluginAssembly,
             IEnumerable<(int languageId, string culture)> languageCultures,
-            Func<string, int, T> getResource,
+            Func<string, int, Task<T>> getResource,
             Func<int, string, string, T> createResource,
-            Action<T> insertResource,
-            Action<T, string> updateResource,
-            Action<T> deleteResource,
+            Func<T, Task> insertResource,
+            Func<T, string, Task> updateResource,
+            Func<T, Task> deleteResource,
             Func<T, string, bool> areResourcesEqual
             )
         {
@@ -38,27 +39,27 @@ namespace nopLocalizationHelper
             this.areResourcesEqual = areResourcesEqual;
         }
 
-        public void CreateLocaleStrings()
+        public async Task CreateLocaleStringsAsync()
         {
-            ManageLocaleStrings(Create);
+            await ManageLocaleStringsAsync(Create);
         }
 
-        public void DeleteLocaleStrings()
+        public async Task DeleteLocaleStringsAsync()
         {
-            ManageLocaleStrings(Delete);
+            await ManageLocaleStringsAsync(Delete);
         }
 
-        private void ManageLocaleStrings(Action<string, int, string> action)
+        private async Task ManageLocaleStringsAsync(Func<string, int, string, Task> action)
         {
             foreach (var resource in PluginResources)
             {
                 foreach (var resourceLanguage in resource.localeStrings)
                 {
-                    action.Invoke(resource.resourceName, resourceLanguage.languageId, resourceLanguage.lsa.Value);
+                    await action.Invoke(resource.resourceName, resourceLanguage.languageId, resourceLanguage.lsa.Value);
 
                     if (!string.IsNullOrWhiteSpace(resourceLanguage.lsa.Hint))
                     {
-                        action.Invoke(resource.resourceName + ".Hint", resourceLanguage.languageId, resourceLanguage.lsa.Hint);
+                        await action.Invoke(resource.resourceName + ".Hint", resourceLanguage.languageId, resourceLanguage.lsa.Hint);
                     }
                 }
             }
@@ -91,26 +92,26 @@ namespace nopLocalizationHelper
         }
 
 
-        private void Create(string resourceName, int languageId, string resourceValue)
+        private async Task Create(string resourceName, int languageId, string resourceValue)
         {
-            var lsr = getResource(resourceName, languageId);
+            var lsr = await getResource(resourceName, languageId);
             if (lsr == null)
             {
                 lsr = createResource(languageId, resourceName, resourceValue);
-                insertResource(lsr);
+                await insertResource(lsr);
             }
             else if (!areResourcesEqual(lsr, resourceValue))
             {
-                updateResource(lsr, resourceValue);
+                await updateResource(lsr, resourceValue);
             }
         }
 
-        private void Delete(string resourceName, int languageId, string notUsed)
+        private async Task Delete(string resourceName, int languageId, string notUsed)
         {
-            var lsr = getResource(resourceName, languageId);
+            var lsr = await getResource(resourceName, languageId);
             if (lsr != null)
             {
-                deleteResource(lsr);
+                await deleteResource(lsr);
             }
         }
     }
