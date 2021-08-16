@@ -72,14 +72,14 @@ The following utility method is an example of instantiating this helper
         {
             return new LocaleStringHelper<LocaleStringResource>
             (
-                GetType().Assembly,
-                from lang in await _languageService.GetAllLanguagesAsync() select (lang.Id, lang.LanguageCulture),
-                async (resourceName, languageId) => await _localizationService.GetLocaleStringResourceByNameAsync(resourceName, languageId, false),
-                (languageId, resourceName, resourceValue) => new LocaleStringResource { LanguageId = languageId, ResourceName = resourceName, ResourceValue = resourceValue },
-                async (lsr) => await _localizationService.InsertLocaleStringResourceAsync(lsr),
-                async (lsr, resourceValue) => { lsr.ResourceValue = resourceValue; await _localizationService.UpdateLocaleStringResourceAsync(lsr); },
-                async (lsr) => await _localizationService.DeleteLocaleStringResourceAsync(lsr),
-                (lsr, resourceValue) => lsr.ResourceValue == resourceValue
+                pluginAssembly: GetType().Assembly,
+                languageCultures: from lang in _languageService.GetAllLanguagesAsync().Result select (lang.Id, lang.LanguageCulture),
+                getResource: (resourceName, languageId) => _localizationService.GetLocaleStringResourceByNameAsync(resourceName, languageId, false),
+                createResource: (languageId, resourceName, resourceValue) => new LocaleStringResource { LanguageId = languageId, ResourceName = resourceName, ResourceValue = resourceValue },
+                insertResource: (lsr) => _localizationService.InsertLocaleStringResourceAsync(lsr),
+                updateResource: (lsr, resourceValue) => { lsr.ResourceValue = resourceValue; return _localizationService.UpdateLocaleStringResourceAsync(lsr); },
+                deleteResource: (lsr) => _localizationService.DeleteLocaleStringResourceAsync(lsr),
+                areResourcesEqual: (lsr, resourceValue) => lsr.ResourceValue == resourceValue
             );
         }
 ```
@@ -89,14 +89,14 @@ The following utility method is an example of instantiating this helper
     private LocaleStringHelper<LocaleStringResource> ResourceHelper() =>
         new LocaleStringHelper<LocaleStringResource>
         (
-            GetType().Assembly,
-            from lang in _languageService.GetAllLanguages() select (lang.Id, lang.LanguageCulture),
-            (resourceName, languageId) => _localizationService.GetLocaleStringResourceByName(resourceName, languageId, false),
-            (languageId, resourceName, resourceValue) => new LocaleStringResource { LanguageId = languageId, ResourceName = resourceName, ResourceValue = resourceValue },
-            (lsr) => _localizationService.InsertLocaleStringResource(lsr),
-            (lsr, resourceValue) => { lsr.ResourceValue = resourceValue; _localizationService.UpdateLocaleStringResource(lsr); },
-            (lsr) => _localizationService.DeleteLocaleStringResource(lsr),
-            (lsr, resourceValue) => lsr.ResourceValue == resourceValue
+            pluginAssembly: GetType().Assembly,
+            languageCultures: from lang in _languageService.GetAllLanguages() select (lang.Id, lang.LanguageCulture),
+            getResource: (resourceName, languageId) => _localizationService.GetLocaleStringResourceByName(resourceName, languageId, false),
+            createResource: (languageId, resourceName, resourceValue) => new LocaleStringResource { LanguageId = languageId, ResourceName = resourceName, ResourceValue = resourceValue },
+            insertResource: (lsr) => _localizationService.InsertLocaleStringResource(lsr),
+            updateResource: (lsr, resourceValue) => { lsr.ResourceValue = resourceValue; _localizationService.UpdateLocaleStringResource(lsr); },
+            deleteResource: (lsr) => _localizationService.DeleteLocaleStringResource(lsr),
+            areResourcesEqual: (lsr, resourceValue) => lsr.ResourceValue == resourceValue
         );
 ```
 

@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>0.6.1</Version>
+    <Version>0.6.2</Version>
     <Authors>Status ehf, Birgir Kristmannsson</Authors>
     <Product>nopLocalizationHelper</Product>
-    <Description>A library that assist with management of nopCommerce locale string resources</Description>
     <Copyright>Status ehf</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/biggik/nopLocalizationHelper</PackageProjectUrl>
@@ -14,6 +13,13 @@
     <RepositoryUrl>https://github.com/biggik/nopLocalizationHelper</RepositoryUrl>
     <PackageTags>nopCommerce, localization, locale</PackageTags>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+    <Description>A library that assists with management of nopCommerce locale string resources (.net 5.0)</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <Description>A library that assists with management of nopCommerce locale string resources (netStandard 2.0)</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +34,6 @@
   </ItemGroup>
 
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="if exist  $(SolutionDir)publish.bat (&#xD;&#xA;   $(SolutionDir)publish.bat $(OutputPath)..\$(PackageId).$(PackageVersion).nupkg&#xD;&#xA;)" />
+    <Exec Command="$(SolutionDir)publish.bat $(OutputPath)$(PackageId).$(PackageVersion).nupkg" />
   </Target>
 </Project>
