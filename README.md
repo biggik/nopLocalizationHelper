@@ -5,6 +5,9 @@ localization of default supported languages for the plugin
 ## NuGet
 This package is available on NuGet [https://www.nuget.org/packages/nopLocalizationHelper]
 
+## .NET 6.0 support
+From version 0.7.0 .net 6.0 build is available to align with nopCommerce 4.50
+
 ## .NET 5.0 support
 From version 0.6.1 the .net 5.0 version is async to better align with nopCommerce 4.40
 

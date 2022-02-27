@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>0.6.2</Version>
+    <Version>0.7.2</Version>
     <Authors>Status ehf, Birgir Kristmannsson</Authors>
     <Product>nopLocalizationHelper</Product>
     <Copyright>Status ehf</Copyright>
@@ -15,6 +15,9 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <Description>A library that assists with management of nopCommerce locale string resources (.net 6.0)</Description>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
     <Description>A library that assists with management of nopCommerce locale string resources (.net 5.0)</Description>
   </PropertyGroup>
@@ -29,6 +32,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+  </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
     <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
   </ItemGroup>

@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nopLocalizationHelper", "nopLocalizationHelper\nopLocalizationHelper.csproj", "{B09F6AA2-F7B1-4721-B8A6-597F4D9F1DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nopLocalizationHelper", "nopLocalizationHelper\nopLocalizationHelper.csproj", "{B09F6AA2-F7B1-4721-B8A6-597F4D9F1DF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{E2D54D5F-C852-4902-B6B5-9A8E57A77D84}"
+	ProjectSection(SolutionItems) = preProject
+		publish.bat = publish.bat
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

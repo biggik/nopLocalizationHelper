@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace nopLocalizationHelper
 {
-#if NET5_0
+#if (NET5_0 || NET6_0)
     public class LocaleStringHelper<T>  where T : class
     {
         private readonly Assembly pluginAssembly;
