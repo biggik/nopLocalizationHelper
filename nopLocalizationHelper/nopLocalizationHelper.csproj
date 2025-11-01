@@ -1,45 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0</TargetFrameworks>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>0.7.2</Version>
-    <Authors>Status ehf, Birgir Kristmannsson</Authors>
-    <Product>nopLocalizationHelper</Product>
-    <Copyright>Status ehf</Copyright>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/biggik/nopLocalizationHelper</PackageProjectUrl>
-    <Company>Status ehf</Company>
-    <RepositoryUrl>https://github.com/biggik/nopLocalizationHelper</RepositoryUrl>
-    <PackageTags>nopCommerce, localization, locale</PackageTags>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net9.0;net8.0;net6.0;net5.0;netstandard2.0</TargetFrameworks>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<Version>0.8.2</Version>
+		<Authors>Status ehf, Birgir Kristmannsson</Authors>
+		<Product>nopLocalizationHelper</Product>
+		<Copyright>Status ehf</Copyright>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageProjectUrl>https://github.com/biggik/nopLocalizationHelper</PackageProjectUrl>
+		<Company>Status ehf</Company>
+		<RepositoryUrl>https://github.com/biggik/nopLocalizationHelper</RepositoryUrl>
+		<PackageTags>nopCommerce, localization, locale</PackageTags>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+	</PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-    <Description>A library that assists with management of nopCommerce locale string resources (.net 6.0)</Description>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-    <Description>A library that assists with management of nopCommerce locale string resources (.net 5.0)</Description>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <Description>A library that assists with management of nopCommerce locale string resources (netStandard 2.0)</Description>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
+		<Description>A library that assists with management of nopCommerce locale string resources (.net 8.0)</Description>
+		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<Description>A library that assists with management of nopCommerce locale string resources (.net 6.0)</Description>
+		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<Description>A library that assists with management of nopCommerce locale string resources (.net 5.0)</Description>
+		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+		<Description>A library that assists with management of nopCommerce locale string resources (netStandard 2.0)</Description>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-  </ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+	</ItemGroup>
 
-  <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="$(SolutionDir)publish.bat $(OutputPath)$(PackageId).$(PackageVersion).nupkg" />
-  </Target>
+	<Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
+		<Exec Command="$(SolutionDir)publish.bat $(OutputPath)$(PackageId).$(PackageVersion).nupkg" />
+	</Target>
 </Project>
