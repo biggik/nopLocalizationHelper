@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net9.0;net8.0;net6.0;net5.0;netstandard2.0</TargetFrameworks>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<Version>0.8.2</Version>
+		<Version>0.8.3</Version>
 		<Authors>Status ehf, Birgir Kristmannsson</Authors>
 		<Product>nopLocalizationHelper</Product>
 		<Copyright>Status ehf</Copyright>
@@ -15,6 +15,10 @@
 		<RunPostBuildEvent>Always</RunPostBuildEvent>
 	</PropertyGroup>
 
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
+		<Description>A library that assists with management of nopCommerce locale string resources (.net 9.0)</Description>
+		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
+	</PropertyGroup>
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
 		<Description>A library that assists with management of nopCommerce locale string resources (.net 8.0)</Description>
 		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
