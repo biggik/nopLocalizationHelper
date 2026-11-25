@@ -5,6 +5,9 @@ localization of default supported languages for the plugin
 ## NuGet
 This package is available on NuGet [https://www.nuget.org/packages/nopLocalizationHelper]
 
+## .NET Standard 2.0
+From version 0.9.0 the package is one netstandard2.0 build. It carries the async helper, so nopCommerce 4.40 through 5.00 all use the same asset. Earlier versions shipped a separate build per framework; those packages stay on NuGet.
+
 ## .NET 9.0 support
 From version 0.8.2 .net 9.0 build is available to align with nopCommerce 4.90
 

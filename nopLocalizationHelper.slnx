@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Solution items/">
+    <File Path="publish.bat" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="nopLocalizationHelper/nopLocalizationHelper.csproj" />
+</Solution>

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace nopLocalizationHelper
 {
-#if (NopAsync)
     public class LocaleStringHelper<T>  where T : class
     {
         private readonly Assembly pluginAssembly;
@@ -85,9 +84,9 @@ namespace nopLocalizationHelper
 
                 return from type in pluginAssembly.GetTypes()
                        where type.CustomAttributes.Any(x => x.AttributeType == typeof(LocaleStringProviderAttribute))
-                       from field in type.GetFields()
-                       select (resourceName: field.GetValue(null).ToString(),
-                               localeStrings: AsLSA(field.GetCustomAttributes(typeof(LocaleStringAttribute), false)));
+                       from resourceField in type.GetFields()
+                       select (resourceName: resourceField.GetValue(null).ToString(),
+                               localeStrings: AsLSA(resourceField.GetCustomAttributes(typeof(LocaleStringAttribute), false)));
             }
         }
 
@@ -115,5 +114,4 @@ namespace nopLocalizationHelper
             }
         }
     }
-#endif
 }

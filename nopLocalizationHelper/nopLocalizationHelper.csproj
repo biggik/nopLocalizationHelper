@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net9.0;net8.0;net6.0;net5.0;netstandard2.0</TargetFrameworks>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Description>A library that assists with management of nopCommerce locale string resources (netstandard2.0)</Description>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<Version>0.8.3</Version>
+		<Version>0.9.0</Version>
 		<Authors>Status ehf, Birgir Kristmannsson</Authors>
 		<Product>nopLocalizationHelper</Product>
 		<Copyright>Status ehf</Copyright>
@@ -15,26 +16,6 @@
 		<RunPostBuildEvent>Always</RunPostBuildEvent>
 	</PropertyGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net9.0' ">
-		<Description>A library that assists with management of nopCommerce locale string resources (.net 9.0)</Description>
-		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<Description>A library that assists with management of nopCommerce locale string resources (.net 8.0)</Description>
-		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<Description>A library that assists with management of nopCommerce locale string resources (.net 6.0)</Description>
-		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<Description>A library that assists with management of nopCommerce locale string resources (.net 5.0)</Description>
-		<DefineConstants>NopAsync;$(DefineConstants)</DefineConstants>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-		<Description>A library that assists with management of nopCommerce locale string resources (netStandard 2.0)</Description>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
@@ -42,14 +23,17 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-	</ItemGroup>
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
-		<PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+	<ItemGroup>
+		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
 	</ItemGroup>
 
 	<Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
-		<Exec Command="$(SolutionDir)publish.bat $(OutputPath)$(PackageId).$(PackageVersion).nupkg" />
+		<PropertyGroup>
+			<_PublishBat>$(MSBuildThisFileDirectory)..\publish.bat</_PublishBat>
+			<_Nupkg>$(PackageOutputAbsolutePath)$(PackageId).$(PackageVersion).nupkg</_Nupkg>
+		</PropertyGroup>
+		<Error Condition="!Exists('$(_PublishBat)')" Text="publish.bat was not found at $(_PublishBat)." />
+		<Error Condition="!Exists('$(_Nupkg)')" Text="Package was not found at $(_Nupkg)." />
+		<Exec Command="&quot;$(_PublishBat)&quot; &quot;$(_Nupkg)&quot;" />
 	</Target>
 </Project>
